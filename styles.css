@@ -1,8 +1,14 @@
+/* Общие стили */
 :root {
-  --primary: #3b82f6;
-  --primary-dark: #2563eb;
-  --gray-100: #f3f4f6;
-  --gray-800: #1f2937;
+  --primary: #4361ee;
+  --primary-dark: #3a56d4;
+  --secondary: #3f37c9;
+  --dark: #1a1a2e;
+  --light: #f8f9fa;
+  --success: #4cc9f0;
+  --warning: #f72585;
+  --gray: #6c757d;
+  --transition: all 0.3s ease;
 }
 
 * {
@@ -13,87 +19,291 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  line-height: 1.5;
-  color: var(--gray-800);
+  line-height: 1.6;
+  color: var(--dark);
+  background-color: var(--light);
+  overflow-x: hidden;
 }
 
 .container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 20px;
 }
 
+/* Шапка */
 header {
-  padding: 1.5rem 0;
-  border-bottom: 1px solid var(--gray-100);
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 1rem 0;
+}
+
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+  background: linear-gradient(45deg, var(--primary), var(--warning));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: var(--transition);
 }
 
-.button {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
+.logo:hover {
+  transform: scale(1.05);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+nav a {
+  color: var(--dark);
   text-decoration: none;
   font-weight: 500;
-  transition: all 0.2s;
+  transition: var(--transition);
+  position: relative;
+}
+
+nav a:not(.button):hover {
+  color: var(--primary);
+}
+
+nav a:not(.button)::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary);
+  transition: var(--transition);
+}
+
+nav a:not(.button):hover::after {
+  width: 100%;
+}
+
+/* Кнопки */
+.button {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: var(--transition);
+  border: 2px solid var(--primary);
 }
 
 .button.primary {
-  background: var(--primary);
+  background-color: var(--primary);
   color: white;
 }
 
 .button.primary:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
+  background-color: var(--primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(67, 97, 238, 0.2);
 }
 
+.button:not(.primary) {
+  color: var(--primary);
+}
+
+.button:not(.primary):hover {
+  background-color: rgba(67, 97, 238, 0.1);
+}
+
+/* Герой секция */
 .hero {
-  padding: 4rem 0;
+  padding: 5rem 0;
   text-align: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(67, 97, 238, 0.1) 0%, transparent 70%);
+  animation: pulse 15s infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(50px, 50px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 .hero h2 {
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
+  color: var(--dark);
+  position: relative;
+  z-index: 1;
 }
 
 .badges {
   display: flex;
-  gap: 0.5rem;
   justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 1;
 }
 
 .badges span {
-  padding: 0.5rem 1rem;
-  background: var(--gray-100);
-  border-radius: 2rem;
-  font-size: 0.875rem;
+  background-color: white;
+  padding: 0.5rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
 }
 
+.badges span:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Функции */
 .features {
-  padding: 4rem 0;
+  padding: 5rem 0;
+}
+
+.features .container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
 .feature {
+  background: white;
   padding: 2rem;
-  border-radius: 0.5rem;
-  background: var(--gray-100);
-  margin-bottom: 1rem;
-}
-
-.download {
-  padding: 4rem 0;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: var(--transition);
   text-align: center;
 }
 
+.feature:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.feature h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.feature p {
+  color: var(--gray);
+}
+
+/* Секция загрузки */
+.download {
+  padding: 5rem 0;
+  text-align: center;
+  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+}
+
+.download h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--dark);
+}
+
+.download .button {
+  margin: 0.5rem 0;
+  display: inline-block;
+  min-width: 300px;
+  text-align: center;
+}
+
+.hint {
+  margin-top: 2rem;
+  color: var(--gray);
+  font-size: 0.9rem;
+}
+
+/* Подвал */
 footer {
+  background-color: var(--dark);
+  color: white;
   padding: 2rem 0;
   text-align: center;
-  border-top: 1px solid var(--gray-100);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  header .container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  nav {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero h2 {
+    font-size: 2rem;
+  }
+
+  .features .container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Анимации */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero, .features, .download {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.feature:nth-child(1) {
+  animation-delay: 0.2s;
+}
+.feature:nth-child(2) {
+  animation-delay: 0.4s;
+}
+.feature:nth-child(3) {
+  animation-delay: 0.6s;
 }
