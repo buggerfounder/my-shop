@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "public": true,
+  "rewrites": [
+    {
+      "source": "/download/(.*)",
+      "destination": "/public/download/$1"
+    }
+  ]
+}
