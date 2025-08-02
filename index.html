@@ -3,17 +3,417 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MagazQR - Кассовая система</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/src/styles.css">
+  <title>MagazQR - Кассовая система нового поколения</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6C63FF;
+      --primary-dark: #564FD9;
+      --secondary: #4D44DB;
+      --accent: #FF6584;
+      --dark: #2D3748;
+      --darker: #1A202C;
+      --light: #F7FAFC;
+      --lighter: #FFFFFF;
+      --gray: #718096;
+      --light-gray: #E2E8F0;
+      --success: #48BB78;
+      --warning: #ED8936;
+      --danger: #F56565;
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.15);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: var(--light);
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      background-color: var(--lighter);
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 16px 0;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-icon {
+      color: var(--accent);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    nav a {
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+      padding: 8px 0;
+    }
+
+    nav a:not(.btn):hover {
+      color: var(--primary);
+    }
+
+    nav a:not(.btn)::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transition: var(--transition);
+      border-radius: 2px;
+    }
+
+    nav a:not(.btn):hover::after {
+      width: 100%;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--lighter);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+    }
+
+    .btn-outline {
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      background: transparent;
+    }
+
+    .btn-outline:hover {
+      background-color: rgba(108, 99, 255, 0.1);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 96px 0;
+      text-align: center;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(108, 99, 255, 0.08) 0%, transparent 70%);
+      animation: pulse 15s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { transform: translate(0, 0); }
+      50% { transform: translate(50px, 50px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: var(--darker);
+      line-height: 1.2;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-badges {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+
+    .badge {
+      background-color: var(--lighter);
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .badge i {
+      color: var(--primary);
+    }
+
+    /* Features */
+    .features {
+      padding: 96px 0;
+      background-color: var(--lighter);
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 48px;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--darker);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+    }
+
+    .feature-card {
+      background: var(--lighter);
+      padding: 32px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      text-align: center;
+      border: 1px solid var(--light-gray);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(108, 99, 255, 0.2);
+    }
+
+    .feature-icon {
+      font-size: 40px;
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+
+    .feature-card h3 {
+      font-size: 20px;
+      margin-bottom: 16px;
+      color: var(--darker);
+    }
+
+    .feature-card p {
+      color: var(--gray);
+    }
+
+    /* Download Section */
+    .download {
+      padding: 96px 0;
+      text-align: center;
+      background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+    }
+
+    .download-options {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .download-btn {
+      width: 100%;
+      justify-content: center;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      font-size: 16px;
+    }
+
+    .version-info {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .version-date {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    .requirements {
+      margin-top: 32px;
+      color: var(--gray);
+      font-size: 14px;
+      padding: 12px;
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: var(--radius-sm);
+      display: inline-block;
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--darker);
+      color: var(--lighter);
+      padding: 32px 0;
+      text-align: center;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .social-link {
+      color: var(--lighter);
+      font-size: 20px;
+      transition: var(--transition);
+    }
+
+    .social-link:hover {
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .copyright {
+      color: var(--light-gray);
+      font-size: 14px;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
-    <div class="container">
-      <h1 class="logo">MagazQR</h1>
+    <div class="container header-container">
+      <a href="#" class="logo">
+        <i class="fas fa-qrcode logo-icon"></i>
+        <span>MagazQR</span>
+      </a>
       <nav>
         <a href="#features">Функции</a>
-        <a href="#download" class="button">Скачать</a>
+        <a href="#download" class="btn btn-primary">
+          <i class="fas fa-download"></i>
+          Скачать
+        </a>
       </nav>
     </div>
   </header>
@@ -21,56 +421,129 @@
   <main>
     <section class="hero">
       <div class="container">
-        <h2>Профессиональное решение для розничной торговли</h2>
-        <div class="badges">
-          <span>Сканирование QR</span>
-          <span>Учет товаров</span>
-          <span>Аналитика продаж</span>
+        <h1 class="animate">Профессиональное решение для розничной торговли</h1>
+        <div class="hero-badges">
+          <span class="badge animate delay-1">
+            <i class="fas fa-qrcode"></i>
+            Сканирование QR
+          </span>
+          <span class="badge animate delay-2">
+            <i class="fas fa-boxes"></i>
+            Учет товаров
+          </span>
+          <span class="badge animate delay-3">
+            <i class="fas fa-chart-line"></i>
+            Аналитика продаж
+          </span>
         </div>
       </div>
     </section>
 
     <section id="features" class="features">
       <div class="container">
-        <div class="feature">
-          <h3>📦 Управление товарами</h3>
-          <p>Добавляйте и редактируйте товары через удобный интерфейс</p>
-        </div>
-        <div class="feature">
-          <h3>💳 Поддержка карт</h3>
-          <p>Работа с виртуальными платежными картами</p>
-        </div>
-        <div class="feature">
-          <h3>📊 Отчеты</h3>
-          <p>Автоматическая генерация отчетов о продажах</p>
+        <h2 class="section-title animate">Возможности системы</h2>
+        <div class="features-grid">
+          <div class="feature-card animate delay-1">
+            <div class="feature-icon">
+              <i class="fas fa-box-open"></i>
+            </div>
+            <h3>Управление товарами</h3>
+            <p>Добавляйте и редактируйте товары через удобный интерфейс с возможностью массового импорта</p>
+          </div>
+          <div class="feature-card animate delay-2">
+            <div class="feature-icon">
+              <i class="fas fa-credit-card"></i>
+            </div>
+            <h3>Поддержка карт</h3>
+            <p>Работа с виртуальными платежными картами и интеграция с популярными платежными системами</p>
+          </div>
+          <div class="feature-card animate delay-3">
+            <div class="feature-icon">
+              <i class="fas fa-file-invoice-dollar"></i>
+            </div>
+            <h3>Отчеты и аналитика</h3>
+            <p>Автоматическая генерация отчетов о продажах с визуализацией данных и экспортом в Excel</p>
+          </div>
         </div>
       </div>
     </section>
 
     <section id="download" class="download">
       <div class="container">
-        <h2>Скачать Актуальную Версию!</h2>
-        <a href="/MagazQR1.1.0A.zip" class="button primary">Скачать Для Windows/Linux Version-1.1.0A 03.08.2025</a><br>
-        <h2>Скачать версии которые есть</h2>
-        <p>
-         <a href="/MagazQR1.1.0A.zip" class="button primary">Скачать Для Windows/Linux Version-1.1.0A 03.08.2025</a><br>
-         <a href="/MagazQR1.1.0.zip" class="button primary">Скачать Для Windows/Linux Version-1.1.0 02.08.2025</a><br>
-         <a href="/MagazQR1.0.0.zip" class="button primary">Скачать для Windows/Linux Version-1.0.0 01.08.2025</a><br>
+        <h2 class="section-title animate">Скачать MagazQR</h2>
+        
+        <div class="download-options">
+          <h3 class="animate">Актуальная версия</h3>
+          <a href="/MagazQR1.1.0A.zip" class="btn btn-primary download-btn animate delay-1">
+            <i class="fas fa-download"></i>
+            <div class="version-info">
+              <span>Windows/Linux Version 1.1.0A</span>
+              <span class="version-date">03.08.2025</span>
+            </div>
+          </a>
+          
+          <h3 class="animate" style="margin-top: 32px;">Другие версии</h3>
+          <a href="/MagazQR1.1.0A.zip" class="btn btn-outline download-btn animate delay-1">
+            <i class="fas fa-download"></i>
+            <div class="version-info">
+              <span>Windows/Linux Version 1.1.0A</span>
+              <span class="version-date">03.08.2025</span>
+            </div>
+          </a>
+          <a href="/MagazQR1.1.0.zip" class="btn btn-outline download-btn animate delay-2">
+            <i class="fas fa-download"></i>
+            <div class="version-info">
+              <span>Windows/Linux Version 1.1.0</span>
+              <span class="version-date">02.08.2025</span>
+            </div>
+          </a>
+          <a href="/MagazQR1.0.0.zip" class="btn btn-outline download-btn animate delay-3">
+            <i class="fas fa-download"></i>
+            <div class="version-info">
+              <span>Windows/Linux Version 1.0.0</span>
+              <span class="version-date">01.08.2025</span>
+            </div>
+          </a>
+        </div>
+
+        <p class="requirements animate">
+          <i class="fas fa-info-circle"></i> Требуется Windows 10/11 (64-bit) или Linux с Python версии 3.13.5
         </p>
-        <p class="hint">Требуется Windows 10/11 (64-bit)/Linux Любой с Python Version 3.13.5</p>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="container">
-      <p>© 2025 MagazQR</p>
+    <div class="container footer-content">
+      <div class="social-links">
+        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+      </div>
+      <p class="copyright">© 2025 MagazQR. Все права защищены.</p>
     </div>
   </footer>
+
+  <script>
+    // Простая анимация при загрузке
+    document.addEventListener('DOMContentLoaded', () => {
+      const elements = document.querySelectorAll('.animate');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      elements.forEach(el => {
+        el.style.opacity = 0;
+        el.style.transform = 'translateY(20px)';
+        observer.observe(el);
+      });
+    });
+  </script>
 </body>
-
 </html>
-
-
-
-
